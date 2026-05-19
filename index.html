@@ -6,46 +6,60 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font-sans, sans-serif); background: transparent; color: var(--color-text-primary); }
   .game-container { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem; }
+
   .header { text-align: center; margin-bottom: 1.5rem; }
-  .header img.neo-logo { width: 110px; height: 110px; object-fit: contain; margin-bottom: 8px; display:block; margin-left:auto; margin-right:auto; }
-  .header h1 { font-size: 22px; font-weight: 500; }
-  .header p { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
-  .deck-neo-img { width: 70px; height: 70px; object-fit: contain; }
+  .logo-header { width: 260px; height: auto; display: block; margin: 0 auto 14px; }
+  .neo-header { width: 100px; height: 100px; object-fit: contain; display: block; margin: 0 auto 10px; }
+  .header h1 { font-size: 28px; font-weight: 500; }
+  .header p { font-size: 16px; color: var(--color-text-secondary); margin-top: 6px; }
+
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
   .stat { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem; text-align: center; }
-  .stat-label { font-size: 12px; color: var(--color-text-secondary); }
-  .stat-value { font-size: 20px; font-weight: 500; margin-top: 2px; }
-  .progress-label { font-size: 12px; color: var(--color-text-secondary); text-align: right; margin-bottom: 4px; }
+  .stat-label { font-size: 14px; color: var(--color-text-secondary); }
+  .stat-value { font-size: 24px; font-weight: 500; margin-top: 2px; }
+
+  .progress-label { font-size: 13px; color: var(--color-text-secondary); text-align: right; margin-bottom: 4px; }
   .progress-bar { height: 6px; background: var(--color-background-secondary); border-radius: 999px; margin-bottom: 1.5rem; overflow: hidden; }
   .progress-fill { height: 100%; border-radius: 999px; background: #1D9E75; transition: width 0.4s ease; }
+
   .card-display { display: none; flex-direction: column; margin-bottom: 1.5rem; }
   .card-display.visible { display: flex; }
   .card { border-radius: 16px; border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); padding: 1.5rem; animation: slideIn 0.3s ease; }
   @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
-  .card-category { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 999px; }
-  .card-neo { font-size: 36px; margin-left: auto; }
-  .card-title { font-size: 17px; font-weight: 500; margin-bottom: 0.5rem; line-height: 1.4; }
-  .card-message { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 1rem; }
-  .card-action { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; font-size: 13px; }
-  .card-action-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .card-category { font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 999px; }
+  .card-neo { margin-left: auto; }
+  .card-neo img { width: 60px; height: 60px; object-fit: contain; }
+  .card-title { font-size: 19px; font-weight: 500; margin-bottom: 0.5rem; line-height: 1.4; }
+  .card-message { font-size: 15px; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 1rem; }
+  .card-action { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; font-size: 14px; }
+  .card-action-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
   .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.75rem; border-top: 0.5px solid var(--color-border-tertiary); }
-  .card-points { font-size: 13px; color: var(--color-text-secondary); }
+  .card-points { font-size: 14px; color: var(--color-text-secondary); }
   .card-points span { font-weight: 500; color: var(--color-text-primary); }
   .btn-row { display: flex; gap: 10px; }
-  .btn { border: 0.5px solid var(--color-border-secondary); background: transparent; border-radius: var(--border-radius-md); padding: 8px 18px; font-size: 14px; cursor: pointer; color: var(--color-text-primary); transition: background 0.1s; }
+  .btn { border: 0.5px solid var(--color-border-secondary); background: transparent; border-radius: var(--border-radius-md); padding: 10px 20px; font-size: 15px; cursor: pointer; color: var(--color-text-primary); transition: background 0.1s; }
   .btn:hover { background: var(--color-background-secondary); }
   .btn-primary { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); }
   .btn-primary:hover { opacity: 0.85; }
-  .draw-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 500; background: transparent; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); cursor: pointer; color: var(--color-text-primary); transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .draw-btn:hover { background: var(--color-background-secondary); }
-  .draw-btn:active { transform: scale(0.98); }
+
+  .abrir-btn { width: 100%; padding: 16px; font-size: 18px; font-weight: 500; background: transparent; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); cursor: pointer; color: var(--color-text-primary); transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .abrir-btn:hover { background: var(--color-background-secondary); }
+  .abrir-btn:active { transform: scale(0.98); }
+  .abrir-btn img { width: 32px; height: 32px; object-fit: contain; }
+
   .history { margin-top: 1rem; }
-  .history h3 { font-size: 14px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 0.5rem; }
+  .history h3 { font-size: 15px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 0.5rem; }
   .history-list { display: flex; flex-direction: column; gap: 6px; }
-  .history-item { font-size: 13px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 8px; }
+  .history-item { font-size: 14px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 8px; }
   .history-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .empty-state { text-align: center; padding: 2rem; color: var(--color-text-secondary); font-size: 14px; margin-bottom: 1rem; }
+
+  .empty-state { text-align: center; padding: 2rem; color: var(--color-text-secondary); font-size: 15px; margin-bottom: 1rem; }
+
+  .footer { text-align: center; padding: 1.5rem 0 0.5rem; border-top: 0.5px solid var(--color-border-tertiary); margin-top: 1.5rem; }
+  .footer a { font-size: 14px; color: var(--color-text-secondary); text-decoration: none; }
+  .footer a:hover { color: var(--color-text-primary); }
+
   .cat-gratidao      { background: #E1F5EE; color: #0F6E56; }
   .cat-resiliencia   { background: #EEEDFE; color: #3C3489; }
   .cat-foco          { background: #E6F1FB; color: #0C447C; }
@@ -63,8 +77,8 @@
   <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Conectar Mentes — Jogo de cartas de bem-estar baseado em psicologia positiva.</h2>
 
   <div class="header">
-    <img src="data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAeSs0FJY0POWoNk7/U+MzPhAAAABg8dQDGKsbbjtn9cvvSHYs6/3FzkTvO9cme9+9Zlnfr65d2v/6axo+ct70NwtyAAAAAKeXerZGQ8Oapr6rOhL9H+9MDhxYf+nd1Xde+pnp49OVzuTOqbVNvV+Mj18JQZDpxwh0AAAAAKeDamPHxX1Lu5p3/OeORP/+rubdlY5kf6WjqXeqvanvSHv4MxEfyd5KV3JXpTO5o9yV3PGpEAy5pmHvuYv96gEAAIBn1tjwHMhQaF+2vbkrufu27uTuAx3J/nJHsrfcnuyrdCT7qk8+al9L9JXD0ZXcNdWV2PUv7YntPxuyORb7PQAAAABP8UzbLurbOM4mb2noe0F3cudfdzXvPhACF8cLbBznqLQn+kImx+Hu5O4vXXtJ36WL/T4AAACAmlBgs9p4XcO9z3vrBbe/uH3ptle0Nw38hzXLtr1pbWLHq98Vf211w23PP6abyJms9h7WNPW9q74lpa88i8DGUzM6Er2VruTOclfzzr88i34vAAAAcMZqfFviky9Z07T9FzqTO/9nZ2LnfR3J/v1h0d9ez1Y42JnY8e+dyR1/057oX7N66cD5DWfB1pXVL+u9sCu584HO5EBllpkbP5DJ0ZmsbVfZv2bptmsW+/0AAADAc1njtRd/4pVdiYG/6m7e/Wi82C+Ho6O+4D96hK91haN512Bn084Pr0ne/vqGMzrIUW0M2RvrmvdWOhLb55y9cfRI9Ja7m/dUOhP9H5XBAQAAAIuj8Uiif+Gaoe/5+p6c5sBWj3Q6bWsrXV9+Zp5WNt5eUFTGMp9gAAAABJRU5ErkJggg==" alt="NEO mascote" style="width:110px;height:110px;object-fit:contain;margin-bottom:8px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-    <div style="display:none;font-size:44px;margin-bottom:6px">🧠</div>
+    <img class="logo-header" src="https://conectarmentes-arch.github.io/conectarmentes/DK%20%E2%80%93%20Novo%20Logotipo%20Deyse%20Kr%C3%BCger-09.png" alt="Logo Conectar Mentes" onerror="this.style.display='none'">
+    <img class="neo-header" src="https://conectarmentes-arch.github.io/conectarmentes/neo-happy.png" alt="NEO mascote" onerror="this.style.display='none'">
     <h1>Conectar Mentes</h1>
     <p>Cada carta é uma semente de bem-estar</p>
   </div>
@@ -82,7 +96,9 @@
     <div class="card">
       <div class="card-top">
         <span class="card-category" id="card-cat"></span>
-        <span class="card-neo" id="card-neo"></span>
+        <div class="card-neo" id="card-neo">
+          <img src="https://conectarmentes-arch.github.io/conectarmentes/neo-happy.png" alt="NEO">
+        </div>
       </div>
       <div class="card-title" id="card-title"></div>
       <div class="card-message" id="card-msg"></div>
@@ -101,24 +117,25 @@
   </div>
 
   <div id="empty-state" class="empty-state" style="display:none">
-    <div style="font-size:40px;margin-bottom:10px">🎉</div>
-    <div style="font-size:16px;font-weight:500;margin-bottom:6px">Baralho completo!</div>
+    <div style="font-size:48px;margin-bottom:10px">🎉</div>
+    <div style="font-size:18px;font-weight:500;margin-bottom:6px">Baralho completo!</div>
     <div>Você passou por todas as 20 cartas. Incrível!</div>
-    <button class="btn" style="margin-top:16px" onclick="resetGame()">Novo Baralho</button>
+    <button class="btn" style="margin-top:16px;font-size:15px;" onclick="resetGame()">Novo Baralho</button>
   </div>
 
-  <button class="draw-btn" id="draw-btn" onclick="drawCard()">
-    <span>🃏</span> Comprar carta
+  <button class="abrir-btn" id="draw-btn" onclick="drawCard()">
+    <img src="https://conectarmentes-arch.github.io/conectarmentes/neo-happy.png" alt="NEO" onerror="this.style.display='none'">
+    Abrir Carta
   </button>
 
   <div class="history" id="history-section" style="display:none">
     <h3>Cartas desta sessão</h3>
     <div class="history-list" id="history-list"></div>
   </div>
-</div>
 
-<div style="text-align:center;padding:1.5rem 0 0.5rem;border-top:0.5px solid var(--color-border-tertiary);margin-top:1.5rem;">
-  <a href="https://www.conectarmentes.com.br" target="_blank" style="font-size:13px;color:var(--color-text-secondary);text-decoration:none;">www.conectarmentes.com.br</a>
+  <div class="footer">
+    <a href="https://www.conectarmentes.com.br" target="_blank">www.conectarmentes.com.br</a>
+  </div>
 </div>
 
 <script>
@@ -145,6 +162,16 @@ const DECK = [
   { cat:'Neurohack', titulo:'Hidratação e clareza mental', mensagem:'O cérebro é composto por cerca de 75% de água. Uma queda de apenas 2% na hidratação já compromete atenção, memória de curto prazo e humor. Beber água é literalmente pensar melhor.', acao:'Beba um copo d\'água agora, devagar e com atenção. Sinta o efeito nos próximos minutos.', pts:3 }
 ];
 
+const NEO_IMG = 'https://conectarmentes-arch.github.io/conectarmentes/neo-happy.png';
+const LOGO_IMG = 'https://conectarmentes-arch.github.io/conectarmentes/DK%20%E2%80%93%20Novo%20Logotipo%20Deyse%20Kr%C3%BCger-09.png';
+
+function catClass(cat) {
+  return { Gratidão:'gratidao', Resiliência:'resiliencia', Foco:'foco', Autocompaixão:'autocompaixao', Neurohack:'neurohack' }[cat];
+}
+function catEmoji(cat) {
+  return { Gratidão:'🌿', Resiliência:'🔥', Foco:'🎯', Autocompaixão:'💛', Neurohack:'⚡' }[cat];
+}
+
 let energia = 0, totalCartas = 0, sequencia = 0;
 let currentCard = null, history = [];
 let deck = [], deckIndex = 0;
@@ -156,16 +183,6 @@ function shuffle(arr) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
-}
-
-function catClass(cat) {
-  return { Gratidão:'gratidao', Resiliência:'resiliencia', Foco:'foco', Autocompaixão:'autocompaixao', Neurohack:'neurohack' }[cat];
-}
-function catEmoji(cat) {
-  return { Gratidão:'🌿', Resiliência:'🔥', Foco:'🎯', Autocompaixão:'💛', Neurohack:'⚡' }[cat];
-}
-function neoFace(cat) {
-  return { Gratidão:'😊', Resiliência:'💪', Foco:'🧘', Autocompaixão:'🤗', Neurohack:'🤯' }[cat];
 }
 
 function updateStats() {
@@ -189,22 +206,19 @@ function drawCard() {
   const cc = catClass(currentCard.cat);
   document.getElementById('card-cat').textContent = catEmoji(currentCard.cat) + ' ' + currentCard.cat;
   document.getElementById('card-cat').className = 'card-category cat-' + cc;
-  document.getElementById('card-neo').innerHTML = '<img src="https://conectarmentes-arch.github.io/conectarmentes/neo-happy.png" alt="NEO" style="width:56px;height:56px;object-fit:contain;">';
   document.getElementById('card-title').textContent = currentCard.titulo;
   document.getElementById('card-msg').textContent = currentCard.mensagem;
   document.getElementById('card-action').textContent = currentCard.acao;
   document.getElementById('card-pts').textContent = currentCard.pts;
   document.getElementById('card-display').classList.add('visible');
   const left = deck.length - deckIndex;
-  document.getElementById('draw-btn').innerHTML = '<img src="https://conectarmentes-arch.github.io/conectarmentes/neo-happy.png" alt="NEO" style="width:28px;height:28px;object-fit:contain;"> Próxima carta (' + left + ' restantes)';
+  document.getElementById('draw-btn').innerHTML = '<img src="' + NEO_IMG + '" alt="NEO" onerror="this.style.display=\'none\'"> Próxima carta (' + left + ' restantes)';
 }
 
 function completeCard() {
   if (!currentCard) return;
-  energia += currentCard.pts;
-  totalCartas++; sequencia++;
-  addHistory(currentCard, true);
-  updateStats();
+  energia += currentCard.pts; totalCartas++; sequencia++;
+  addHistory(currentCard, true); updateStats();
   document.getElementById('card-display').classList.remove('visible');
   currentCard = null;
 }
@@ -212,8 +226,7 @@ function completeCard() {
 function skipCard() {
   if (!currentCard) return;
   sequencia = 0; totalCartas++;
-  addHistory(currentCard, false);
-  updateStats();
+  addHistory(currentCard, false); updateStats();
   document.getElementById('card-display').classList.remove('visible');
   currentCard = null;
 }
@@ -225,18 +238,17 @@ function addHistory(card, done) {
     `<div class="history-item">
       <div class="history-dot dot-${catClass(h.cat)}"></div>
       <span>${catEmoji(h.cat)} ${h.titulo}</span>
-      <span style="margin-left:auto;font-size:12px">${h.done ? '✓' : '—'}</span>
+      <span style="margin-left:auto;font-size:13px">${h.done ? '✓' : '—'}</span>
     </div>`
   ).join('');
 }
 
 function resetGame() {
   energia = 0; totalCartas = 0; sequencia = 0; history = []; deckIndex = 0;
-  deck = shuffle(DECK);
-  updateStats();
+  deck = shuffle(DECK); updateStats();
   document.getElementById('empty-state').style.display = 'none';
   document.getElementById('draw-btn').style.display = 'flex';
-  document.getElementById('draw-btn').innerHTML = '<img src="https://conectarmentes-arch.github.io/conectarmentes/neo-happy.png" alt="NEO" style="width:28px;height:28px;object-fit:contain;"> Abrir Carta';
+  document.getElementById('draw-btn').innerHTML = '<img src="' + NEO_IMG + '" alt="NEO" onerror="this.style.display=\'none\'"> Abrir Carta';
   document.getElementById('history-section').style.display = 'none';
   document.getElementById('history-list').innerHTML = '';
   document.getElementById('card-display').classList.remove('visible');
