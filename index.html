@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans, sans-serif); background: transparent; color: var(--color-text-primary); }
+  .game-container { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem; }
+  .header { text-align: center; margin-bottom: 1.5rem; }
+  .header h1 { font-size: 22px; font-weight: 500; }
+  .header p { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .stat { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem; text-align: center; }
+  .stat-label { font-size: 12px; color: var(--color-text-secondary); }
+  .stat-value { font-size: 20px; font-weight: 500; margin-top: 2px; }
+  .progress-label { font-size: 12px; color: var(--color-text-secondary); text-align: right; margin-bottom: 4px; }
+  .progress-bar { height: 6px; background: var(--color-background-secondary); border-radius: 999px; margin-bottom: 1.5rem; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 999px; background: #1D9E75; transition: width 0.4s ease; }
+  .card-display { display: none; flex-direction: column; margin-bottom: 1.5rem; }
+  .card-display.visible { display: flex; }
+  .card { border-radius: 16px; border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); padding: 1.5rem; animation: slideIn 0.3s ease; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .card-category { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 999px; }
+  .card-neo { font-size: 36px; margin-left: auto; }
+  .card-title { font-size: 17px; font-weight: 500; margin-bottom: 0.5rem; line-height: 1.4; }
+  .card-message { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 1rem; }
+  .card-action { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; font-size: 13px; }
+  .card-action-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.75rem; border-top: 0.5px solid var(--color-border-tertiary); }
+  .card-points { font-size: 13px; color: var(--color-text-secondary); }
+  .card-points span { font-weight: 500; color: var(--color-text-primary); }
+  .btn-row { display: flex; gap: 10px; }
+  .btn { border: 0.5px solid var(--color-border-secondary); background: transparent; border-radius: var(--border-radius-md); padding: 8px 18px; font-size: 14px; cursor: pointer; color: var(--color-text-primary); transition: background 0.1s; }
+  .btn:hover { background: var(--color-background-secondary); }
+  .btn-primary { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); }
+  .btn-primary:hover { opacity: 0.85; }
+  .draw-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 500; background: transparent; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); cursor: pointer; color: var(--color-text-primary); transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .draw-btn:hover { background: var(--color-background-secondary); }
+  .draw-btn:active { transform: scale(0.98); }
+  .history { margin-top: 1rem; }
+  .history h3 { font-size: 14px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 0.5rem; }
+  .history-list { display: flex; flex-direction: column; gap: 6px; }
+  .history-item { font-size: 13px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 8px; }
+  .history-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .empty-state { text-align: center; padding: 2rem; color: var(--color-text-secondary); font-size: 14px; margin-bottom: 1rem; }
+  .cat-gratidao      { background: #E1F5EE; color: #0F6E56; }
+  .cat-resiliencia   { background: #EEEDFE; color: #3C3489; }
+  .cat-foco          { background: #E6F1FB; color: #0C447C; }
+  .cat-autocompaixao { background: #FBEAF0; color: #72243E; }
+  .cat-neurohack     { background: #FAEEDA; color: #633806; }
+  .dot-gratidao      { background: #1D9E75; }
+  .dot-resiliencia   { background: #534AB7; }
+  .dot-foco          { background: #185FA5; }
+  .dot-autocompaixao { background: #D4537E; }
+  .dot-neurohack     { background: #BA7517; }
+</style>
+</head>
+<body>
+<div class="game-container">
+  <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Conectar Mentes — Jogo de cartas de bem-estar baseado em psicologia positiva.</h2>
+
+  <div class="header">
+    <div style="font-size:44px;margin-bottom:6px">🧠</div>
+    <h1>Conectar Mentes</h1>
+    <p>Cada carta é uma semente de bem-estar</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Energia Mental</div><div class="stat-value" id="energia">0</div></div>
+    <div class="stat"><div class="stat-label">Cartas Abertas</div><div class="stat-value" id="total-cartas">0</div></div>
+    <div class="stat"><div class="stat-label">Sequência</div><div class="stat-value" id="sequencia">0</div></div>
+  </div>
+
+  <div class="progress-label" id="progress-label">Nível 1 — Explorador</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <div class="card-display" id="card-display">
+    <div class="card">
+      <div class="card-top">
+        <span class="card-category" id="card-cat"></span>
+        <span class="card-neo" id="card-neo"></span>
+      </div>
+      <div class="card-title" id="card-title"></div>
+      <div class="card-message" id="card-msg"></div>
+      <div class="card-action">
+        <div class="card-action-label">Desafio do Momento</div>
+        <div id="card-action"></div>
+      </div>
+      <div class="card-footer">
+        <div class="card-points">+<span id="card-pts"></span> de energia mental</div>
+        <div class="btn-row">
+          <button class="btn" onclick="skipCard()">Pular</button>
+          <button class="btn btn-primary" onclick="completeCard()">Concluir ✓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="empty-state" class="empty-state" style="display:none">
+    <div style="font-size:40px;margin-bottom:10px">🎉</div>
+    <div style="font-size:16px;font-weight:500;margin-bottom:6px">Baralho completo!</div>
+    <div>Você passou por todas as 20 cartas. Incrível!</div>
+    <button class="btn" style="margin-top:16px" onclick="resetGame()">Novo Baralho</button>
+  </div>
+
+  <button class="draw-btn" id="draw-btn" onclick="drawCard()">
+    <span>🃏</span> Comprar carta
+  </button>
+
+  <div class="history" id="history-section" style="display:none">
+    <h3>Cartas desta sessão</h3>
+    <div class="history-list" id="history-list"></div>
+  </div>
+</div>
+
+<script>
+const DECK = [
+  { cat:'Gratidão', titulo:'Três presentes escondidos', mensagem:'A gratidão ativa o córtex pré-frontal e libera dopamina, criando um ciclo natural de bem-estar. Pesquisas mostram que reconhecer momentos positivos reconecta o cérebro para perceber mais deles ao longo do dia.', acao:'Feche os olhos por 30 segundos e nomeie 3 coisas boas que aconteceram hoje, por menores que sejam.', pts:4 },
+  { cat:'Resiliência', titulo:'A força que cresce na adversidade', mensagem:'A resiliência não é ausência de dificuldade, mas a capacidade de se reorganizar depois dela. Cada superação fortalece conexões neurais, tornando você mais capaz na próxima vez.', acao:'Pense em um desafio que você já superou. Reconheça: o que essa experiência lhe ensinou sobre si mesmo?', pts:5 },
+  { cat:'Foco', titulo:'Um momento de total presença', mensagem:'O estado de fluxo acontece quando habilidade e desafio se equilibram. Pequenas pausas intencionais aumentam a capacidade de concentração e reduzem o ruído mental.', acao:'Por 2 minutos, foque apenas na sua respiração. Inspire em 4 tempos, segure 2, expire em 6.', pts:3 },
+  { cat:'Autocompaixão', titulo:'Seja gentil com quem você é', mensagem:'A autocompaixão reduz o cortisol e ativa o sistema de cuidado do cérebro. Tratar a si mesmo como você trataria um bom amigo é uma das práticas mais eficazes da psicologia positiva.', acao:'Escreva uma frase gentil para si mesmo como se fosse para um amigo que passa pela mesma situação que você.', pts:4 },
+  { cat:'Neurohack', titulo:'Seu cérebro se transforma todo dia', mensagem:'A neuroplasticidade mostra que o cérebro adulto continua criando novas conexões ao longo da vida. Pequenos hábitos repetidos diariamente são a melhor tecnologia de transformação disponível.', acao:'Escolha um mini-hábito para hoje: 1 minuto de movimento, 1 copo d\'água extra ou 1 pausa consciente.', pts:5 },
+  { cat:'Gratidão', titulo:'O poder de dizer obrigado', mensagem:'Expressar gratidão a outra pessoa fortalece laços sociais e aumenta a sensação de pertencimento. Estudos de Martin Seligman mostram que uma carta de gratidão eleva o bem-estar por semanas.', acao:'Envie uma mensagem curta para alguém agradecendo por algo específico que ela fez por você.', pts:4 },
+  { cat:'Resiliência', titulo:'Respirar é recomeçar', mensagem:'Em momentos de estresse, a respiração diafragmática ativa o nervo vago e reduz a resposta de luta ou fuga. É uma das formas mais rápidas de recuperar o equilíbrio emocional.', acao:'Inspire pelo nariz em 4 tempos, segure por 4 e expire pela boca em 8. Repita 4 vezes.', pts:3 },
+  { cat:'Foco', titulo:'Menos é mais poderoso', mensagem:'O cérebro não foi feito para multitarefas. Quando dividimos a atenção, a qualidade de cada tarefa cai e o estresse aumenta. Focar em uma coisa por vez é um ato de gentileza com sua mente.', acao:'Escolha UMA tarefa para fazer agora com total atenção, deixando o celular virado para baixo por 10 minutos.', pts:4 },
+  { cat:'Autocompaixão', titulo:'Errar é parte do aprender', mensagem:'A autocrítica excessiva ativa as mesmas regiões cerebrais envolvidas em ameaças físicas. Reconhecer erros com curiosidade em vez de punição acelera o aprendizado e a mudança.', acao:'Pense em algo que você fez e se arrependeu. Substitua a crítica por uma pergunta: o que posso aprender com isso?', pts:4 },
+  { cat:'Neurohack', titulo:'Mova o corpo, mude o humor', mensagem:'Apenas 10 minutos de movimento físico liberam BDNF, uma proteína que protege os neurônios e melhora o humor. O exercício é o antidepressivo mais acessível que existe.', acao:'Levante agora e faça 2 minutos de movimento: alongamento, caminhada ou dança. O que seu corpo pedir.', pts:5 },
+  { cat:'Gratidão', titulo:'Beleza nos pequenos momentos', mensagem:'A atenção plena aos momentos simples ativa o sistema de recompensa do cérebro sem precisar de nada externo. O prazer está disponível a qualquer hora, se treinarmos a percebê-lo.', acao:'Observe ao redor e encontre algo bonito que você geralmente ignora. Fique 30 segundos apreciando só isso.', pts:3 },
+  { cat:'Resiliência', titulo:'Você já chegou até aqui', mensagem:'Olhar para trás e reconhecer o caminho percorrido fortalece a autoeficácia, a crença na própria capacidade. Isso alimenta a motivação para seguir em frente mesmo nas fases difíceis.', acao:'Liste mentalmente 3 momentos difíceis que você superou. Reconheça: você tinha mais força do que imaginava.', pts:5 },
+  { cat:'Foco', titulo:'A clareza começa no silêncio', mensagem:'O cérebro em modo padrão, quando descansamos, processa informações, consolida memórias e gera insights. Pausas não são perda de tempo, são parte essencial do pensamento criativo.', acao:'Tire 3 minutos longe de telas. Sente, observe o ambiente e deixe a mente vagar sem direção.', pts:3 },
+  { cat:'Autocompaixão', titulo:'Suas emoções são informação', mensagem:'As emoções difíceis não são inimigas — são sinais do sistema nervoso pedindo atenção. Nomeá-las em vez de suprimi-las reduz sua intensidade e amplia a capacidade de responder com sabedoria.', acao:'Identifique o que você está sentindo agora e nomeie em voz alta ou por escrito. Só nomear já alivia.', pts:4 },
+  { cat:'Neurohack', titulo:'Dormir é um superpoder', mensagem:'Durante o sono, o cérebro elimina toxinas acumuladas e consolida o aprendizado do dia. Privar-se de sono prejudica memória, regulação emocional e tomada de decisão mais do que qualquer outra variável.', acao:'Defina agora um horário para dormir esta noite 30 minutos mais cedo do que o habitual.', pts:5 },
+  { cat:'Gratidão', titulo:'Conectar é florescer', mensagem:'Conexões sociais positivas são o preditor mais forte de bem-estar subjetivo segundo décadas de pesquisa. O cérebro humano é literalmente wired para a conexão — isolamento dói como dor física.', acao:'Entre em contato com alguém que você gosta mas faz tempo que não fala. Uma mensagem curta já conta.', pts:4 },
+  { cat:'Resiliência', titulo:'Cada recomeço é uma vitória', mensagem:'A mentalidade de crescimento, estudada por Carol Dweck, mostra que ver habilidades como desenvolvíveis muda a relação com o fracasso. Quem recomeça mais vezes, aprende mais rápido.', acao:'Pense em algo que você desistiu. Pergunte-se: existe uma versão menor disso que posso tentar hoje?', pts:5 },
+  { cat:'Foco', titulo:'Intenção antes da ação', mensagem:'Definir uma intenção antes de começar uma tarefa ativa o córtex pré-frontal e reduz a procrastinação. É uma técnica usada em mindfulness e em psicologia cognitiva para aumentar a eficácia.', acao:'Antes de começar sua próxima atividade, diga em voz alta: "Minha intenção agora é..." e complete a frase.', pts:3 },
+  { cat:'Autocompaixão', titulo:'Você merece o cuidado que dá', mensagem:'Muitas pessoas cuidam dos outros com generosidade mas se esquecem de si mesmas. O cuidado próprio não é egoísmo — é o que torna possível continuar cuidando dos outros de forma saudável.', acao:'Faça algo pequeno por você agora: um chá, uma música, um momento de descanso sem culpa.', pts:4 },
+  { cat:'Neurohack', titulo:'Hidratação e clareza mental', mensagem:'O cérebro é composto por cerca de 75% de água. Uma queda de apenas 2% na hidratação já compromete atenção, memória de curto prazo e humor. Beber água é literalmente pensar melhor.', acao:'Beba um copo d\'água agora, devagar e com atenção. Sinta o efeito nos próximos minutos.', pts:3 }
+];
+
+let energia = 0, totalCartas = 0, sequencia = 0;
+let currentCard = null, history = [];
+let deck = [], deckIndex = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function catClass(cat) {
+  return { Gratidão:'gratidao', Resiliência:'resiliencia', Foco:'foco', Autocompaixão:'autocompaixao', Neurohack:'neurohack' }[cat];
+}
+function catEmoji(cat) {
+  return { Gratidão:'🌿', Resiliência:'🔥', Foco:'🎯', Autocompaixão:'💛', Neurohack:'⚡' }[cat];
+}
+function neoFace(cat) {
+  return { Gratidão:'😊', Resiliência:'💪', Foco:'🧘', Autocompaixão:'🤗', Neurohack:'🤯' }[cat];
+}
+
+function updateStats() {
+  document.getElementById('energia').textContent = energia;
+  document.getElementById('total-cartas').textContent = totalCartas;
+  document.getElementById('sequencia').textContent = sequencia + (sequencia >= 3 ? '🔥' : '');
+  const pct = Math.min(100, Math.round((energia / 80) * 100));
+  document.getElementById('progress-fill').style.width = pct + '%';
+  const nivel = energia < 15 ? 'Nível 1 — Explorador' : energia < 35 ? 'Nível 2 — Aprendiz' : energia < 60 ? 'Nível 3 — Praticante' : 'Nível 4 — Mestre NEO';
+  document.getElementById('progress-label').textContent = nivel;
+}
+
+function drawCard() {
+  if (deckIndex >= deck.length) {
+    document.getElementById('draw-btn').style.display = 'none';
+    document.getElementById('empty-state').style.display = 'block';
+    document.getElementById('card-display').classList.remove('visible');
+    return;
+  }
+  currentCard = deck[deckIndex++];
+  const cc = catClass(currentCard.cat);
+  document.getElementById('card-cat').textContent = catEmoji(currentCard.cat) + ' ' + currentCard.cat;
+  document.getElementById('card-cat').className = 'card-category cat-' + cc;
+  document.getElementById('card-neo').textContent = neoFace(currentCard.cat);
+  document.getElementById('card-title').textContent = currentCard.titulo;
+  document.getElementById('card-msg').textContent = currentCard.mensagem;
+  document.getElementById('card-action').textContent = currentCard.acao;
+  document.getElementById('card-pts').textContent = currentCard.pts;
+  document.getElementById('card-display').classList.add('visible');
+  const left = deck.length - deckIndex;
+  document.getElementById('draw-btn').innerHTML = '<span>🃏</span> Próxima carta (' + left + ' restantes)';
+}
+
+function completeCard() {
+  if (!currentCard) return;
+  energia += currentCard.pts;
+  totalCartas++; sequencia++;
+  addHistory(currentCard, true);
+  updateStats();
+  document.getElementById('card-display').classList.remove('visible');
+  currentCard = null;
+}
+
+function skipCard() {
+  if (!currentCard) return;
+  sequencia = 0; totalCartas++;
+  addHistory(currentCard, false);
+  updateStats();
+  document.getElementById('card-display').classList.remove('visible');
+  currentCard = null;
+}
+
+function addHistory(card, done) {
+  history.unshift({ cat: card.cat, titulo: card.titulo, done });
+  document.getElementById('history-section').style.display = 'block';
+  document.getElementById('history-list').innerHTML = history.slice(0, 8).map(h =>
+    `<div class="history-item">
+      <div class="history-dot dot-${catClass(h.cat)}"></div>
+      <span>${catEmoji(h.cat)} ${h.titulo}</span>
+      <span style="margin-left:auto;font-size:12px">${h.done ? '✓' : '—'}</span>
+    </div>`
+  ).join('');
+}
+
+function resetGame() {
+  energia = 0; totalCartas = 0; sequencia = 0; history = []; deckIndex = 0;
+  deck = shuffle(DECK);
+  updateStats();
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('draw-btn').style.display = 'flex';
+  document.getElementById('draw-btn').innerHTML = '<span>🃏</span> Comprar carta';
+  document.getElementById('history-section').style.display = 'none';
+  document.getElementById('history-list').innerHTML = '';
+  document.getElementById('card-display').classList.remove('visible');
+}
+
+deck = shuffle(DECK);
+updateStats();
+</script>
+</body>
+</html>
